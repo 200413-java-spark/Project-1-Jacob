@@ -116,6 +116,10 @@ public class SparkServlet extends HttpServlet {
 		resp.getWriter().println(entries.collect());
 
 		resp.getWriter().println(entries.count());
+
+		JavaPairRDD<String, Integer> test = entries.mapToPair((f) -> new Tuple2<>(f.getSubject(), 1));
+		JavaPairRDD<String, Integer> count = test.reduceByKey((x, y) -> (int) x + (int) y);
+		resp.getWriter().print(count.collect());
 		
 		//JavaRDD<String> namesRDD = sparkContext.parallelize(names);
 		//JavaPairRDD<String, Integer> namesMapper = namesRDD.mapToPair((f) -> new Tuple2<>(f, 1));

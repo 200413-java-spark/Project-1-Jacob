@@ -26,6 +26,10 @@ public class Entry implements Serializable {
         this.subject = s[7];
     }
 
+    public String getSubject() {
+        return this.subject;
+    }
+
     public String toString() {
         String output = this.course_title + this.is_paid + this.price + this.num_subscribers + this.num_lectures 
             + this.level + this.content_duration + this.subject;
