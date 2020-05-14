@@ -107,15 +107,15 @@ public class SparkServlet extends HttpServlet {
 		// JavaRDD<String> data = sparkContext.textFile("C:/Users/bigma/Documents/RevatureWork/Project-1-JacobMacklin/src/main/java/spark/resource.csv");
 		JavaRDD<String> data = sparkContext.textFile("C:/Users/bigma/Documents/RevatureWork/Project-1-JacobMacklin/src/main/resources/resource.csv");
 		
-		resp.getWriter().println(data.collect());
+		//resp.getWriter().println(data.collect());
 
-		resp.getWriter().println(data.count());
+		//resp.getWriter().println(data.count());
 
 		JavaRDD<Entry> entries = data.map((f) -> EntryParser.parse(f));
 		
-		resp.getWriter().println(entries.collect());
+		//resp.getWriter().println(entries.collect());
 
-		resp.getWriter().println(entries.count());
+		//resp.getWriter().println(entries.count());
 
 		JavaPairRDD<String, Integer> test = entries.mapToPair((f) -> new Tuple2<>(f.getSubject(), 1));
 		JavaPairRDD<String, Integer> count = test.reduceByKey((x, y) -> (int) x + (int) y);
