@@ -1,6 +1,7 @@
 package spark;
 
 import spark.logic.*;
+import spark.rddmethods.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,19 +19,21 @@ import org.apache.spark.api.java.JavaRDD;
 import org.apache.spark.api.java.JavaSparkContext;
 
 import scala.Tuple2;
+import scala.annotation.meta.param;
 
 @WebServlet("/spark")
 public class SparkServlet extends HttpServlet {
 	JavaSparkContext sparkContext;
 	ArrayList<String> names;
+	JavaRDD<Entry> entries;
 	// List<String> names;
 
 	@Override
 	public void init() throws ServletException {
 		SparkConf conf = new SparkConf().setAppName("Project1").setMaster("local");
 		sparkContext = new JavaSparkContext(conf);
-		JavaRDD<String> data = sparkContext.textFile("resource.csv");
-		System.out.println(data.toString());
+		JavaRDD<String> data = sparkContext.textFile("C:/Users/bigma/Documents/RevatureWork/Project-1-JacobMacklin/src/main/resources/resource.csv");
+		entries = data.map((f) -> EntryParser.parse(f));
 
 
 		/*
@@ -57,7 +60,38 @@ public class SparkServlet extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-		
+		String param = req.getParameter("request");
+		if(param != null) {
+			if(param.equals("is_paid")) {
+				JavaPairRDD<Boolean, Integer> count = Actions.is_paid(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("prices")) {
+				JavaPairRDD<Integer, Integer> count = Actions.prices(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("subscribers")) {
+				JavaPairRDD<Integer, Integer> count = Actions.subscribers(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("lectures")) {
+				JavaPairRDD<Integer, Integer> count = Actions.lectures(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("levels")) {
+				JavaPairRDD<String, Integer> count = Actions.levels(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("durations")) {
+				JavaPairRDD<String, Integer> count = Actions.durations(entries);
+				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("subjects")) {
+				JavaPairRDD<String, Integer> count = Actions.subjects(entries);
+				resp.getWriter().print(count.collect());
+			}
+			
+		}
 
 		/*
 		String name = req.getParameter("name");
@@ -103,19 +137,6 @@ public class SparkServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-
-		// JavaRDD<String> data = sparkContext.textFile("C:/Users/bigma/Documents/RevatureWork/Project-1-JacobMacklin/src/main/java/spark/resource.csv");
-		JavaRDD<String> data = sparkContext.textFile("C:/Users/bigma/Documents/RevatureWork/Project-1-JacobMacklin/src/main/resources/resource.csv");
-		
-		//resp.getWriter().println(data.collect());
-
-		//resp.getWriter().println(data.count());
-
-		JavaRDD<Entry> entries = data.map((f) -> EntryParser.parse(f));
-		
-		//resp.getWriter().println(entries.collect());
-
-		//resp.getWriter().println(entries.count());
 
 		JavaPairRDD<String, Integer> test = entries.mapToPair((f) -> new Tuple2<>(f.getSubject(), 1));
 		JavaPairRDD<String, Integer> count = test.reduceByKey((x, y) -> (int) x + (int) y);

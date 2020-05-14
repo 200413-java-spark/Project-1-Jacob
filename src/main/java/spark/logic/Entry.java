@@ -29,10 +29,15 @@ public class Entry implements Serializable {
         this.content_duration = s[6];
         this.subject = s[7];
     }
-
-    public String getSubject() {
-        return this.subject;
-    }
+    
+    public String getTitle() { return this.course_title; }
+    public Boolean getPaid() { return this.is_paid; }
+    public Integer getPrice() { return this.price; }
+    public Integer getSubscribers() { return this.num_subscribers; }
+    public Integer getLectures() { return this.num_lectures; }
+    public String getLevel() { return this.level; }
+    public String getDuration() { return this.content_duration; }
+    public String getSubject() { return this.subject; }
 
     public String toString() {
         String output = this.course_title + this.is_paid + this.price + this.num_subscribers + this.num_lectures 
