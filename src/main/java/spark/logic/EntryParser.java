@@ -5,7 +5,7 @@ public class EntryParser {
 
     public static Entry parse(String s) {
         String[] output = new String[8];
-        String[] toParse = s.split(",");
+        String[] toParse = s.split(",(?=([^\"]*\"[^\"]*\")*[^\"]*$)");
 
         output[0] = toParse[1];
         output[1] = toParse[3];

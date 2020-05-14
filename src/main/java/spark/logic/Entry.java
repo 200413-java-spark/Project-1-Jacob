@@ -18,7 +18,11 @@ public class Entry implements Serializable {
     Entry(String[] s) {
         this.course_title = s[0];
         this.is_paid = Boolean.parseBoolean(s[1]);
-        this.price = Integer.parseInt(s[2]);
+        try {
+            this.price = Integer.parseInt(s[2]);
+        } catch(NumberFormatException e){
+            this.price = 0;
+        }
         this.num_subscribers = Integer.parseInt(s[3]);
         this.num_lectures = Integer.parseInt(s[4]);
         this.level = s[5];
