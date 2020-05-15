@@ -1,7 +1,9 @@
 package spark;
 
+import spark.io.SqlDataSource;
 import spark.logic.*;
 import spark.rddmethods.*;
+import spark.io.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -89,6 +91,9 @@ public class SparkServlet extends HttpServlet {
 			else if(param.equals("subjects")) {
 				JavaPairRDD<String, Integer> count = Actions.subjects(entries);
 				resp.getWriter().print(count.collect());
+			}
+			else if(param.equals("write")) {
+				SqlDataset.write();
 			}
 			
 		}

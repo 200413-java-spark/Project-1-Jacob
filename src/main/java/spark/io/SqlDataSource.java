@@ -11,9 +11,9 @@ public class SqlDataSource {
     private String password;
 
     private SqlDataSource() {
-        url = System.getProperty("database.url", "jdbc:postgresql://localhost:5432/agendadb");
-        user = System.getProperty("database.username", "agendadb");
-        password = System.getProperty("database.password", "agendadb");
+        url = System.getProperty("database.url", "jdbc:postgresql://3.22.188.12/sparkdb");
+        user = System.getProperty("database.username", "sparkdb");
+        password = System.getProperty("database.password", "sparkdb");
     }
 
     public static SqlDataSource getInstance() {
