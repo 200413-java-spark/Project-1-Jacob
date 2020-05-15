@@ -73,7 +73,7 @@ public class SparkServlet extends HttpServlet {
 				resp.getWriter().print(count.collect());
 			}
 			else if(param.equals("subscribers")) {
-				JavaPairRDD<Integer, Integer> count = Actions.subscribers(entries);
+				JavaPairRDD<String, Integer> count = Actions.subscribers(entries);
 				resp.getWriter().print(count.collect());
 			}
 			else if(param.equals("lectures")) {
@@ -94,6 +94,10 @@ public class SparkServlet extends HttpServlet {
 			}
 			else if(param.equals("write")) {
 				SqlDataset.write();
+			}
+			else if(param.equals("subjectvsprice")){
+				JavaPairRDD<String, Integer> count = Actions.priceForSubject(entries);
+				resp.getWriter().print(count.collect());
 			}
 			
 		}
