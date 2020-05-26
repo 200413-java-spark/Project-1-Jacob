@@ -8,16 +8,17 @@ import java.sql.DriverManager;
 
 public class SqlDataset {
 
-    public static void write() {
+    public static void write() throws ClassNotFoundException {
 
         String sql = "insert into sparkdb(course_title, is_paid, price, num_subscribers, num_lectures, level, content_duration, subject) values(?, ?, ?, ?, ?, ?, ?, ?)";
-
+        Class.forName("org.postgresql.Driver");
         try(Connection conn = SqlDataSource.getConnection();
-                //PreparedStatement statement = conn.prepareStatement(sql);
-                //Statement rmStatement = conn.createStatement();
+                
+                PreparedStatement statement = conn.prepareStatement(sql);
+                Statement rmStatement = conn.createStatement();
                 ) {
             
-            /*
+            
             statement.setString(1, "xx");
             Boolean ex = true;
             statement.setBoolean(2, ex);
@@ -29,7 +30,7 @@ public class SqlDataset {
             statement.setString(8, "Business");
             statement.addBatch();
             statement.executeBatch();
-           */
+           
             System.out.println("Successfully wrote to database");
 
         } catch (SQLException e) {

@@ -93,7 +93,11 @@ public class SparkServlet extends HttpServlet {
 				resp.getWriter().print(count.collect());
 			}
 			else if(param.equals("write")) {
-				SqlDataset.write();
+				try {
+					SqlDataset.write();
+				} catch(ClassNotFoundException e) {
+					e.printStackTrace();
+				}
 			}
 			else if(param.equals("subjectvsprice")){
 				JavaPairRDD<String, Integer> count = Actions.priceForSubject(entries);
